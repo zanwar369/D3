@@ -1,0 +1,23 @@
+Type,Questions,Close relationship,Without close,Difference1,Intense,Without Intense,Difference2,Effect1,Effect2,Scale
+College and Career Activities,Spent time on your own studying for the ACT or SAT,0.14703,0.156042,-0.00901,0.19244,0.156042,0.03639,None,None,%
+College and Career Activities,Taken a practice ACT/SAT test,0.39207,0.377609,0.01446,0.39644,0.377609,0.01883,None,None,%
+College and Career Activities,Participated in an ACT/SAT prep class,0.18159,0.16888,0.01271,0.20755,0.16888,0.03867,None,None,%
+College and Career Activities,Reviewed PSAT results with an adult,0.26377,0.306084,-0.04232,0.26603,0.306084,-0.04005,None,None,%
+College and Career Activities,Sat in on a college-level course,0.14372,0.133843,0.00988,0.14453,0.133843,0.01069,None,None,%
+College and Career Activities,Visited an out-of state college campus,0.22753,0.227099,0.000434,0.28152,0.227099,0.05442,None,None,%
+College and Career Activities,Visited a college campus outside NYC (but in NY state),0.42767,0.405328,0.02234,0.48518,0.405328,0.07985,None,None,%
+College and Career Activities,Visited a college campus in NYC,0.69145,0.679658,0.01179,0.69748,0.679658,0.01783,None,None,%
+College and Career Activities,Participated in a program or special event on a college campus,0.40809,0.366412,0.04167,0.39306,0.366412,0.02665,None,None,%
+College and Career Activities,Researched colleges,0.59167,0.570209,0.02147,0.61094,0.570209,0.04073,None,None,%
+College and Career Activities,Developed a resume,0.539,0.517536,0.02147,0.55826,0.517536,0.04073,None,None,%
+College and Career Activities,Researched possible career paths,0.56077,0.525118,0.03565,0.58175,0.525118,0.05663,None,None,%
+College and Career Aspirations,"""I think I will go to 2/4 year college.""",0.8647,0.866038,-0.00133,0.88611,0.866038,0.02007,None,None,%
+College and Career Aspirations,"""I want to go to 2/4 year college.""",0.9327,0.925472,0.007225,0.8962,0.925472,-0.02928,None,None,%
+College and Career Aspirations,"""I only need high school to live the life I want.""",0.04737,0.059434,-0.01206,0.04973,0.059434,-0.0097,None,None,%
+Academic and Personal Behaviors and Attitudes,Critical Thinking,3.20733,3.026314,0.04525,3.08462,3.026314,0.0145775,Medium,None,Rating: 0-4
+Academic and Personal Behaviors and Attitudes,Confident about College and Career,3.22818,3.098105,0.032525,3.14556,3.098105,0.0118625,Small,None,Rating: 0-4
+Academic and Personal Behaviors and Attitudes,Goal and Setting Behavior,3.68207,2.945193,0.184225,3.31355,2.945193,0.0921,Large,Large,Rating: 0-4
+Academic and Personal Behaviors and Attitudes,Impression Management,3.94327,3.693892,0.06235,3.76185,3.693892,0.01699,Medium,None,Rating: 0-4
+Academic and Personal Behaviors and Attitudes,Internal Resilience,3.3439,3.151678,0.04805,3.21879,3.151678,0.01678,Medium,Medium,Rating: 0-4
+Academic and Personal Behaviors and Attitudes,Scholastic Self-Efficacy,3.15632,3.060371,0.0239875,3.11388,3.060371,0.0133775,Small,None,Rating: 0-4
+Academic and Personal Behaviors and Attitudes,Task Persistence,3.29613,3.160489,0.0339,3.20054,3.160489,0.0100125,Medium,None,Rating: 0-4
