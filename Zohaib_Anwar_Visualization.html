@@ -1,0 +1,512 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+<!--   loads d3 and dimple -->
+  	<script src="https://d3js.org/d3.v5.min.js"></script>
+  	<script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+  	<style>
+
+  /*  Sets positions for titles, legend, and buttons, as wells other styles*/
+    h2 {
+       position: relative;
+       left: 700px;
+       font-size:30px;
+
+       }
+
+    h2.yaxist {position: absolute;
+    		left: -20px;
+    		top: 400px;
+    	  transform: rotate(-90deg);	
+    	  }
+
+    h2.xaxist {position: absolute;
+    		  top: 900px;
+    		  left:850px;}
+
+    svg {position:absolute;
+    	 top:10px;
+    	 left:200px;}
+
+    div.Difference_Type {
+        position: absolute;
+        top: 590px;
+        left: 1920px;
+      }
+
+   div.Difference_Type div {
+        background-color: rgb(251, 201, 127);
+        padding: 3px;
+        margin: 7px;
+      }
+
+  </style>
+  <script type="text/javascript">
+    // This is the main function that takes the data and plots it
+      function draw(data) {
+        // Setting the margins and height for the svg
+          var margin = 100,
+              width = 1800 - margin,
+              height = 1000 - margin;
+
+          // Creating title
+          d3.select('body')
+            .append('h2')
+            .classed("title",true)
+            .text("Average Differences between Students Across Survey Indicators");
+          // Xaxis title
+          d3.select('body')
+          	.append('h2')
+          	.classed("xaxist",true)
+          	.text("Average Differences due to Closeness");
+          // Yaxis Title
+          d3.select("body")
+          	.append('h2')
+          	.classed("yaxist",true)
+          	.text("Average Differences due to Basic Participation");
+
+          // Creates the svg/plotting area.
+          var svg = d3.select("body")
+                      .append("svg")
+                      .attr("width", 4000 + margin)
+                      .attr("height", 1000 + margin)
+                      .append('g')
+                      .attr('class','chart');
+
+        // Setting up the extents and positioning of the x and y axes
+         var close_extent = [-.5,.5];
+
+         var close_scale = d3.scaleLinear()
+                             .range([margin,width])
+                             .domain(close_extent);
+
+         var wclose_extent = [-.5,.5];
+
+         var wclose_scale = d3.scaleLinear()
+                              .range([height, margin])
+                              .domain(wclose_extent);
+
+         var close_axis = d3.axisBottom()
+                            .scale(close_scale);
+
+         var wclose_axis = d3.axisLeft()
+                             .scale(wclose_scale);
+      // Creating a variable to house descriptive text for each of the points
+ 	     var tip = d3.select('body')
+            			 .append('div')
+            			 .attr('class', 'tip')
+      			       .style('padding', '5px')
+        			     .style('position', 'absolute')
+        			     .style('top','450px')
+        			   	 .style('left','1920px')
+        			   	 .style("color","#50000")
+        			   	 .style("font-size","16pt")
+        			     .style('display', 'none')
+        			     .on('mouseover', function(d, i) {
+        			     	   tip.transition().duration(0);
+        			     		 })
+        			     .on('mouseout', function(d, i) {
+        			        	tip.style('display', 'none');
+        			      		});
+    // Area variable to use for creating area plots in the svg   
+		var area=d3.area()
+        			 .x(function(d)  {return close_scale(d[0]);})
+        			 .y1(function(d) {return wclose_scale(d[1]);});
+
+       // Creates area for x medium difference and accompanying text
+        d3.select('svg')
+        	.append("path")
+        	.datum([[-.5,.2],[.5,.2],[.5,.5],[-.5,.5]])
+        	.attr("class","area1")
+        	.attr('fill','#ffe4b2')
+        	.attr("d",area)
+        	.style("opacity",.5)
+        	.on('mouseover', function(d, i) {
+        						tip.transition().duration(0);
+        						tip.style('display', 'block');
+      							tip.html("Medium Difference");})
+          .on('mouseout', function(d, i){tip.transition()
+        							.delay(500)
+        							.style('display', 'none');
+      								});
+       // Creates area for x small difference and accompanying text
+        d3.select('svg')
+        	.append("path")
+        	.datum([[-.5,0],[.5,0],[.5,.2],[-.5,.2]])
+        	.attr("class","area2")
+        	.attr('fill','#ffedcc')
+        	.attr("d",area)
+        	.style("opacity",.5)
+        	.on('mouseover', function(d, i) {
+        						tip.transition().duration(0);
+        						tip.style('display', 'block');
+      							tip.html("Small Difference")})
+          .on('mouseout', function(d, i){tip.transition()
+        							.delay(500)
+        							.style('display', 'none');
+      								});;
+        // Creates area for y medium difference and accompanying text
+        d3.select('svg')
+        	.append("path")
+        	.datum([[.2,.5],[.5,.5],[.5,-.5],[.2,-.5]])
+        	.attr("class","area3")
+        	.attr('fill','#ccddea')
+        	.attr("d",area)
+        	.style("opacity",.5)
+        	.on('mouseover', function(d, i) {
+        						tip.transition().duration(0);
+        						tip.style('display', 'block');
+      							tip.html("Medium Difference")})
+          .on('mouseout', function(d, i){tip.transition()
+        							.delay(500)
+        							.style('display', 'none');
+      								});;
+         // Creates area for y small difference and accompanying text
+        d3.select('svg')
+        	.append("path")
+        	.datum([[0,.5],[.2,.5],[.2,-.5],[0,-.5]])
+        	.attr("class","area4")
+        	.attr('fill','#dde8f1')
+        	.attr("d",area)
+        	.style("opacity",.5)
+        	.on('mouseover', function(d, i) {
+        						tip.transition().duration(0);
+        						tip.style('display', 'block');
+      							tip.html("Small Difference")})
+          .on('mouseout', function(d, i){tip.transition()
+        							.delay(500)
+        							.style('display', 'none');
+      								});;
+        // Creates the points for the plot- each represented by an image
+        d3.select('svg')
+            .selectAll("image")
+            .data(data)
+            .enter()
+            .append("svg:image")
+            .attr("xlink:href",function(d){if (d['Type']=="Academic and Personal Behaviors and Attitudes")
+              						{return "icon1.png";}
+              				else if (d['Type']=="College and Career Aspirations")
+              						{return "icon2.png";}
+              				else    {return "icon3.png";}});
+        // Creates the xaxis
+        d3.select("svg")
+          .append('g')
+          .attr('class', 'x_axis')
+          .attr("transform", "translate(0,"+wclose_scale(0)+")")
+          .call(close_axis);
+        // Creates the yaxis
+        d3.select("svg")
+          .append('g')
+          .attr('class', 'y_axis')
+          .attr("transform", "translate("+ close_scale(0) +",0)")
+          .call(wclose_axis);
+       // Appends the data and tooltip information to the images
+     		d3.selectAll('image')
+      	  .classed('graph1',true)
+          .attr('x', function(d) {
+                      return close_scale(d['Difference1'])-13;
+                  		})
+          .attr('y', function(d) {
+                      return wclose_scale(d['Difference2'])-13;
+                  		})
+                  .attr('opacity',.85)
+                  .attr('width', 30)
+    			.attr('height', 30)
+          .attr('color', function(d){
+                  				if (d['Type']=="Academic and Personal Behaviors and Attitudes")
+                  						{return "#7570b3";}
+                  				else if (d['Type']=="College and Career Aspirations")
+                  						{return "#d95f02";}
+                  				else    {return "#1b9e77";}})
+          .on('mouseover', function(d, i) {
+            						tip.transition().duration(0);
+            						tip.style('display', 'block');
+          							tip.html(function(){if (d["Type"]=="Academic and Personal Behaviors and Attitudes")
+          												{return d["Type"]+"<br>Closeness Effect Size: "+d['Difference1']+
+          											   "<br>Participation Effect Size: "+d["Difference2"]+
+          											   "<br>Scale: Rating 0-3";}
+          											   else {return d["Type"]+"<br>Closeness Effect Size: "+d['Difference1']+
+          											   "<br>Participation Effect Size: "+d["Difference2"]+
+          											   "<br>Scale: %";}});
+
+          							})
+          .on('mouseout', function(d, i) {
+            							tip.transition()
+            							.delay(500)
+            							.style('display', 'none');
+          								});
+       // Creates the legend for the points
+        var legend = svg.append("g")
+                    .attr("class", "legend")
+                    .attr("transform", "translate(" + (1800) + "," + 100 + ")")
+                    .selectAll("g")
+                    .data(["Academic and Personal Behaviors and Attitudes",
+                    	   "College and Career Aspirations",
+                    	   "College and Career Activities"])
+                    .enter()
+    			          .append("g");
+
+    		var colors1 = ["#7570b3","#d95f02","#1b9e77"];
+    		var colors2 = ['#ffe4b2','#ffedcc','#ccddea','#dde8f1']
+    		var links   = ["icon1.png",
+          						"icon2.png",
+          						"icon3.png"
+          						]
+        // Adds images to the legend as well
+    		legend.append("image")
+    		 	  .attr("y", function(d, i) {
+    	                 return (i * 30+50)-13;
+    		              })
+    	      .attr("x",-55-13)
+    	      .attr('width', 30)
+    			  .attr('height', 30)
+    		    .attr("xlink:href", function(d,i){return links[i];});
+
+            var legend1 = svg.append("g")
+            				.attr("class", "legend1")
+                    .attr("transform", "translate(" + (1800) + "," + 300 + ")")
+                    .selectAll("g")
+                    .data(["Medium Difference","Small Difference",
+                    	   "Medium Difference","Small Difference"])
+                    .enter()
+    					      .append("g");
+            				
+
+
+        // Adds text to the legend
+          legend.append("text")
+            	   .attr("y", function(d, i) {
+                      return i * 30 + 55;})
+                 .attr("x", 10 * 5-80)
+                 .style("font-size",22)
+                 .text(function(d) {
+                      		return d;})
+
+
+        	legend.append("text")
+            	  .attr("y", 20)
+                .attr("x", -40)
+                .style("font-size",25)
+                .style("font-weight","bold")
+                .text("Question Types")
+         // Creates the second legend for the area plots, and adds text to it
+          legend1.append("rect")
+              	 .attr("y", function(d,i){return i*30;})
+              	 .attr("x",-65)
+           			 .attr("height", 18)
+           			 .attr("width", 18)
+                 .attr("fill", function(d,i) {return colors2[i];});
+
+          legend1.append("text")
+          	  .attr("y", function(d, i) {
+                    return i * 30 + 18.5-5;})
+              .attr("x", 10 * 5-80)
+              .style("font-size",22)
+              .text(function(d) {
+                  		return d;})
+
+          legend1.append("text")
+          	     .attr("y", -30)
+                 .attr("x", -40)
+                 .style("font-size",25)
+                 .style("font-weight","bold")
+                 .text("Difference Types")
+          // Function to update the plot based on buttons
+           function update(diftype) {
+            // if the closeness button is chosen then update everything to display only 
+            //   the plot for closeness to a mentor
+           		if (diftype=="Closeness") {
+           			d3.select("svg").selectAll(".graph1")
+           			  .attr("x", function(data) {
+                      return close_scale(data['Difference1'])-13});
+           			d3.select('.title')
+           			  .text("Average Differences between Students Across Survey Indicators")
+           			  .style("left","700px");
+           			d3.select('.y_axis')
+           			  .style('display','initial');
+           			d3.select('.area3')
+           			  .style('display','initial');
+           			d3.select('.area4')
+           			  .style('display','initial');
+           			d3.select('.yaxist')
+           			  .style('display','initial');
+           			d3.select('.xaxist')
+           			  .style('display','initial');
+           			d3.select('.legend1>g:nth-child(3)').attr('display','initial');
+           			d3.select('.legend1>g:nth-child(4)').attr('display','initial');
+
+           			d3.select("svg").selectAll(".graph1")
+           			  .attr("y",wclose_scale(0)-13);
+           			d3.select('.title')
+           			  .text("Average Differences due to Closeness")
+           			  .style("left","875px");
+           			d3.select('.x_axis')
+           			  .style('display','none');
+           			d3.select('.area1')
+           			  .style('display','none');
+           			d3.select('.area2')
+           			  .style('display','none');
+           			d3.select('.yaxist')
+           			  .style('display','none');
+           			d3.select('.xaxist')
+           			  .style('display','none');
+           			d3.select('.legend1>g:nth-child(1)').attr('display','none');
+           			d3.select('.legend1>g:nth-child(2)').attr('display','none');
+           			d3.select('.legend1>g:nth-child(3)')
+           			  .select('rect').attr('y',-10);
+           			d3.select('.legend1>g:nth-child(3)')
+           			  .select('text').attr('y',5);
+           			d3.select('.legend1>g:nth-child(4)')
+           		    .select('rect').attr('y',20);
+           		  d3.select('.legend1>g:nth-child(4)')
+           		    .select('text').attr('y',35);
+           									}
+            // if the Basic Participation button is chosen then update everything to display only 
+            //   the plot for Basic Participation in the program
+           		else if (diftype=="Basic Participation") {
+
+           			d3.select("svg").selectAll(".graph1")
+           			  .attr("y", function(data) {
+                      return wclose_scale(data['Difference2'])-13});
+           			d3.select('.title')
+           			  .text("Average Differences between Students Across Survey Indicators")
+           			  .style("left","300px");
+           			d3.select('.x_axis')
+           			  .style('display','initial');
+           			d3.select('.area1')
+           			  .style('display','initial');
+           			d3.select('.area2')
+           			  .style('display','initial');
+           			d3.select('.yaxist')
+           			  .style('display','initial');
+           			d3.select('.xaxist')
+           			  .style('display','initial');
+           			d3.select('.legend1>g:nth-child(1)').attr('display','initial');
+           			d3.select('.legend1>g:nth-child(2)').attr('display','initial');
+           			d3.select('.legend1>g:nth-child(3)')
+           			  .select('rect').attr('y',60);
+           			d3.select('.legend1>g:nth-child(3)')
+           			  .select('text').attr('y',73.5);
+           			d3.select('.legend1>g:nth-child(4)')
+           		    .select('rect').attr('y',90);
+           		  d3.select('.legend1>g:nth-child(4)')
+           		    .select('text').attr('y',103.5);
+
+
+           		  d3.select("svg").selectAll(".graph1")
+           			  .attr("x",close_scale(0)-13);
+           			d3.select('.title')
+           			  .text("Average Differences due to Basic Participation")
+           			  .style("left","875px");
+           			d3.select('.y_axis')
+           			  .style('display','none');
+           			d3.select('.area3')
+           			  .style('display','none');
+           			d3.select('.area4')
+           			  .style('display','none');
+           			d3.select('.yaxist')
+           			  .style('display','none');
+           			d3.select('.xaxist')
+           			  .style('display','none');
+           			d3.select('.legend1>g:nth-child(3)').attr('display','none');
+           			d3.select('.legend1>g:nth-child(4)').attr('display','none');
+           		}
+       // if the option for both button is chosen then update everything to display original plot
+    		else  {
+    			    d3.select("svg").selectAll(".graph1")
+         			  .attr("y", function(data) {
+                    return wclose_scale(data['Difference2'])-13})
+                    .attr("x",function(data) {
+                    return close_scale(data['Difference1'])-13});
+         			d3.select('.title')
+         			  .text("Average Differences between Students Across Survey Indicators")
+         			  .style("left","700px");
+         			d3.select('.x_axis')
+         			  .style('display','initial');
+         			d3.select('.y_axis')
+         			  .style('display','initial');
+         			d3.select('.area1')
+         			  .style('display','initial');
+         			d3.select('.area2')
+         			  .style('display','initial');
+         			d3.select('.area3')
+         			  .style('display','initial');
+         			d3.select('.area4')
+         			  .style('display','initial')
+         			d3.select('.yaxist')
+         			  .style('display','initial');
+         			d3.select('.xaxist')
+         			  .style('display','initial');
+         			d3.select('.legend1>g:nth-child(1)').attr('display','initial');
+         			d3.select('.legend1>g:nth-child(2)').attr('display','initial');
+         			d3.select('.legend1>g:nth-child(3)').attr('display','initial');
+         			d3.select('.legend1>g:nth-child(4)').attr('display','initial');
+         			d3.select('.legend1>g:nth-child(3)')
+         			  .select('rect').attr('y',60);
+         			d3.select('.legend1>g:nth-child(3)')
+         			  .select('text').attr('y',73.5);
+         			d3.select('.legend1>g:nth-child(4)')
+         		    .select('rect').attr('y',90);
+         		  d3.select('.legend1>g:nth-child(4)')
+         		    .select('text').attr('y',103.5);
+              } ;
+     
+            };
+            // Creating the buttons for selection of the above
+            var buttons = d3.select("body")
+                            .append("div")
+                            .attr("class", "Difference_Type")
+                            .selectAll("div")
+                            .data(["Closeness","Basic Participation","Close and Basic"])
+                            .enter()
+                            .append("div")
+                            .text(function(d) {
+                                return d;
+                            	})
+                            .style('font-size',"15pt")
+                            .style('border','outset')
+                            .style('border-color','coral');
+
+            // Giving functionality to the buttons
+            buttons.on("click", function(d) {
+                d3.select(".Difference_Type")
+                  .selectAll("div")
+                  .transition()
+                  .duration(500)
+                  .style("color", "black")
+                  .style("background", "rgb(251, 201, 127)");
+                 
+                d3.select(this)
+                  .transition()
+                  .duration(500)
+                  .style("background", "lightBlue")
+                  .style("color", "white");
+          
+                update(diftype=d);
+                 
+            });        
+
+
+       }
+
+
+
+
+
+  </script>
+  </head>
+  <body>
+  <script type="text/javascript">
+// Reading in the data and correcting format
+  d3.csv("Student.csv").then(function(d) {d["Difference1"] =parseFloat(d["Difference1"]);
+  									d["Difference2"] = parseFloat(d["Difference2"]);
+  									return d;}
+  		).then(draw);
+
+  </script>
+</body>
+</html>
+
+    
+  
